@@ -7,6 +7,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 import { Heart } from "lucide-react";
+import FallingHearts from './FallingHearts';
 
 const Login = () => {
   const [password, setPassword] = useState('');
@@ -41,23 +42,25 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-b from-cream to-cream-dark">
-      <div className="z-10 relative w-full max-w-md animate-fade-in">
-        <Heart className="absolute -top-14 left-1/2 -translate-x-1/2 text-love w-10 h-10 animate-pulse-scale" />
+    <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-b from-[#121420] to-[#1A1F2C]">
+      <FallingHearts enabled={true} />
+      
+      <div className="z-10 relative w-full max-w-md md:max-w-lg animate-fade-in">
+        <Heart className="absolute -top-14 left-1/2 -translate-x-1/2 text-love w-14 h-14 animate-pulse-scale" fill="#ff6b8b" />
         
-        <Card className="card-love border-love/20">
+        <Card className="card-love border-love/20 w-full">
           <CardHeader className="space-y-1 text-center">
-            <CardTitle className="text-2xl font-bold text-love">Olá, meu amor</CardTitle>
-            <CardDescription className="text-muted-foreground">
+            <CardTitle className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-purple-400 glow-text">Olá, meu amor</CardTitle>
+            <CardDescription className="text-muted-foreground text-lg">
               Por favor, responda a pergunta abaixo
             </CardDescription>
           </CardHeader>
           
           <CardContent>
-            <form onSubmit={handleSubmit}>
-              <div className="grid gap-4">
-                <div className="space-y-2">
-                  <Label htmlFor="password" className="text-center w-full block text-base">
+            <form onSubmit={handleSubmit} className="w-full">
+              <div className="grid gap-6">
+                <div className="space-y-4">
+                  <Label htmlFor="password" className="text-center w-full block text-xl text-transparent bg-clip-text bg-gradient-to-r from-pink-300 to-purple-300">
                     {loginQuestion}
                   </Label>
                   <Input
@@ -66,14 +69,14 @@ const Login = () => {
                     placeholder="Sua resposta..."
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="border-love/30 focus:border-love"
+                    className="futuristic-input text-lg py-6"
                     autoComplete="off"
                   />
                 </div>
                 
                 <Button 
                   type="submit" 
-                  className="love-button" 
+                  className="love-button bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 py-6 text-lg"
                   disabled={isLoading}
                 >
                   {isLoading ? "Verificando..." : "Entrar"}
@@ -83,7 +86,7 @@ const Login = () => {
           </CardContent>
           
           <CardFooter className="flex justify-center">
-            <p className="text-sm text-muted-foreground">
+            <p className="text-lg text-muted-foreground">
               Pense com carinho... ❤️
             </p>
           </CardFooter>
@@ -92,9 +95,10 @@ const Login = () => {
       
       {/* Decorative elements */}
       <div className="fixed top-0 left-0 w-full h-full pointer-events-none overflow-hidden">
-        <div className="absolute -top-4 -left-4 w-24 h-24 bg-love/10 rounded-full blur-xl"></div>
-        <div className="absolute top-1/4 -right-4 w-32 h-32 bg-love/10 rounded-full blur-xl"></div>
-        <div className="absolute bottom-1/4 -left-10 w-40 h-40 bg-love/10 rounded-full blur-xl"></div>
+        <div className="absolute -top-10 -left-10 w-72 h-72 bg-purple-600/10 rounded-full blur-3xl"></div>
+        <div className="absolute top-1/4 -right-10 w-96 h-96 bg-pink-600/10 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-1/3 -left-20 w-80 h-80 bg-purple-600/10 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-0 right-0 w-64 h-64 bg-pink-600/10 rounded-full blur-3xl"></div>
       </div>
     </div>
   );

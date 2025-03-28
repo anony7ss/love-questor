@@ -1,149 +1,84 @@
-import { useState } from 'react';
-import { Calendar } from "@/components/ui/calendar";
-import { Card, CardContent } from "@/components/ui/card";
-import { 
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import { Button } from "@/components/ui/button";
-import { CalendarIcon, HeartHandshake } from "lucide-react";
-import { format } from "date-fns";
-import { ptBR } from "date-fns/locale";
 
-interface SpecialDate {
-  date: Date;
+import React from 'react';
+import { Card, CardContent } from "@/components/ui/card";
+import { CalendarIcon } from "lucide-react";
+
+interface TimelineEvent {
+  date: string;
   title: string;
   description: string;
 }
 
-// Change these to your important dates
-const specialDates: SpecialDate[] = [
+// Edit these events with your own special dates!
+const timelineEvents: TimelineEvent[] = [
   {
-    date: new Date(2023, 5, 15), // June 15, 2023
+    date: "01/01/2023",
     title: "Nosso primeiro encontro",
-    description: "O dia em que nos conhecemos e tudo começou"
+    description: "Aquele dia especial em que nos conhecemos e tudo começou."
   },
   {
-    date: new Date(2023, 8, 22), // September 22, 2023
-    title: "Nosso primeiro beijo",
-    description: "Um momento mágico que nunca vou esquecer"
+    date: "14/02/2023",
+    title: "Primeiro beijo",
+    description: "Um momento mágico que nunca vou esquecer."
   },
   {
-    date: new Date(2023, 11, 24), // December 24, 2023
-    title: "Festa de Natal",
-    description: "Quando apresentei você para minha família"
+    date: "15/03/2023",
+    title: "Primeira viagem juntos",
+    description: "Nossa escapada para a praia foi incrível."
   },
   {
-    date: new Date(2024, 1, 14), // February 14, 2024
-    title: "Dia dos Namorados",
-    description: "Nosso primeiro Dia dos Namorados juntos"
+    date: "20/05/2023",
+    title: "Conheceu minha família",
+    description: "O dia em que te apresentei para as pessoas mais importantes da minha vida."
   }
 ];
 
 const DateTimeline = () => {
-  const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
-  const [openPopover, setOpenPopover] = useState(false);
-  
-  const specialDatesArray = specialDates.map(d => d.date);
-  
-  const findSpecialDateInfo = (date: Date): SpecialDate | undefined => {
-    return specialDates.find(sd => 
-      sd.date.getDate() === date.getDate() && 
-      sd.date.getMonth() === date.getMonth() && 
-      sd.date.getFullYear() === date.getFullYear()
-    );
-  };
-  
-  const handleDateSelect = (date: Date | undefined) => {
-    setSelectedDate(date);
-    if (date && findSpecialDateInfo(date)) {
-      // Keep popover open if it's a special date
-    } else {
-      setOpenPopover(false);
-    }
-  };
-  
-  const isSpecialDate = (date: Date): boolean => {
-    return specialDatesArray.some(specialDate => 
-      specialDate.getDate() === date.getDate() && 
-      specialDate.getMonth() === date.getMonth() && 
-      specialDate.getFullYear() === date.getFullYear()
-    );
-  };
-  
   return (
-    <div className="w-full mb-8">
-      <h3 className="text-xl font-semibold text-center mb-4 text-white">
+    <div className="space-y-6 my-4">
+      <h3 className="text-xl font-semibold text-center text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-purple-400">
         Nossas Datas Especiais
       </h3>
       
-      <Card className="bg-black/30 backdrop-blur-md border border-purple-400/30">
-        <CardContent className="pt-6 text-center">
-          <div className="flex flex-col items-center space-y-4">
-            <Popover open={openPopover} onOpenChange={setOpenPopover}>
-              <PopoverTrigger asChild>
-                <Button 
-                  variant="outline" 
-                  className="w-[280px] justify-start text-left bg-black/30 border-purple-400/30 text-white"
-                >
-                  <CalendarIcon className="mr-2 h-4 w-4 text-purple-400" />
-                  {selectedDate ? (
-                    format(selectedDate, "PPP", { locale: ptBR })
-                  ) : (
-                    <span>Selecione uma data especial</span>
-                  )}
-                </Button>
-              </PopoverTrigger>
-              <PopoverContent className="w-auto p-0 bg-black/50 backdrop-blur-xl border border-purple-400/30" align="center">
-                <Calendar
-                  mode="single"
-                  selected={selectedDate}
-                  onSelect={handleDateSelect}
-                  modifiers={{ special: specialDatesArray }}
-                  modifiersStyles={{
-                    special: { 
-                      backgroundColor: "rgba(147, 51, 234, 0.3)", 
-                      borderRadius: "100%",
-                      color: "white"
-                    }
-                  }}
-                  className="p-3 pointer-events-auto bg-transparent text-white"
-                  styles={{
-                    selected: { backgroundColor: "#8B5CF6", color: "white" },
-                    today: { borderColor: "#8B5CF6", color: "white" },
-                    day: { color: "white" }
-                  }}
-                />
-              </PopoverContent>
-            </Popover>
-            
-            {selectedDate && isSpecialDate(selectedDate) && (
-              <div className="animate-fade-in mt-4 text-white">
-                <div className="flex items-center justify-center mb-2">
-                  <HeartHandshake className="text-purple-400 mr-2" />
-                  <h4 className="text-lg font-medium">{findSpecialDateInfo(selectedDate)?.title}</h4>
-                </div>
-                <p className="text-gray-200">{findSpecialDateInfo(selectedDate)?.description}</p>
-              </div>
-            )}
-            
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-2 w-full mt-2">
-              {specialDates.map((specialDate, index) => (
-                <Button
-                  key={index}
-                  variant="ghost"
-                  size="sm"
-                  className="bg-purple-800/30 text-white hover:bg-purple-600/50 border border-purple-400/30"
-                  onClick={() => {
-                    setSelectedDate(specialDate.date);
-                    setOpenPopover(true);
-                  }}
-                >
-                  {format(specialDate.date, "dd/MM/yyyy")}
-                </Button>
-              ))}
-            </div>
+      <div className="space-y-4 max-h-[350px] overflow-y-auto pr-2 timeline-scroll">
+        {timelineEvents.map((event, index) => (
+          <TimelineItem 
+            key={index}
+            event={event}
+            isLast={index === timelineEvents.length - 1}
+          />
+        ))}
+      </div>
+    </div>
+  );
+};
+
+const TimelineItem = ({ 
+  event, 
+  isLast 
+}: { 
+  event: TimelineEvent;
+  isLast: boolean;
+}) => {
+  return (
+    <div className="relative">
+      {/* Timeline connector */}
+      {!isLast && (
+        <div className="absolute left-5 top-10 bottom-0 w-0.5 bg-gradient-to-b from-purple-500 to-pink-500" />
+      )}
+      
+      <Card className="relative bg-black/30 backdrop-blur-sm border border-purple-500/20 overflow-hidden">
+        <div className="absolute -left-3 top-4 w-10 h-10 rounded-full bg-gradient-to-br from-pink-500 to-purple-600 flex items-center justify-center shadow-lg z-10">
+          <CalendarIcon className="h-5 w-5 text-white" />
+        </div>
+        
+        <CardContent className="pl-10 pt-4 pb-4">
+          <div className="space-y-1">
+            <p className="text-sm font-medium text-purple-300">{event.date}</p>
+            <h4 className="text-base font-semibold text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-purple-300">
+              {event.title}
+            </h4>
+            <p className="text-sm text-gray-300">{event.description}</p>
           </div>
         </CardContent>
       </Card>
