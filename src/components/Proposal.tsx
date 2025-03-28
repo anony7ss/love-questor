@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { toast } from "sonner";
-import { Heart, Music, Volume2, VolumeX, ArrowDown } from "lucide-react";
+import { Heart, Music, Volume2, VolumeX, ArrowDown, Sparkles } from "lucide-react";
 import FallingHearts from './FallingHearts';
 import PhotoGallery from './PhotoGallery';
 import DateTimeline from './DateTimeline';
@@ -87,8 +87,8 @@ Com todo meu carinho e amor.`;
   };
   
   return (
-    <div className="min-h-screen flex flex-col items-center justify-start pb-20 overflow-x-hidden bg-gradient-to-br from-[#1A1F2C] to-[#121420]">
-      <FallingHearts enabled={showProposal} />
+    <div className="min-h-screen flex flex-col items-center justify-center py-10 overflow-x-hidden bg-gradient-to-br from-[#1A1F2C] to-[#121420]">
+      <FallingHearts enabled={true} />
       
       {/* Audio control */}
       <Button 
@@ -100,14 +100,14 @@ Com todo meu carinho e amor.`;
         {audioPlaying ? <VolumeX size={20} /> : <Volume2 size={20} />}
       </Button>
       
-      <div className="w-full max-w-md px-4 pt-10 pb-6 animate-fade-in">
-        <Card className="relative overflow-hidden bg-black/40 backdrop-blur-lg border border-purple-400/30 text-center">
-          <div className="absolute -top-5 left-1/2 -translate-x-1/2 bg-gradient-to-br from-pink-500 to-purple-600 w-10 h-10 rounded-full flex items-center justify-center shadow-lg z-10">
+      <div className="w-full max-w-md px-4 py-6 animate-fade-in">
+        <Card className="relative overflow-hidden bg-black/40 backdrop-blur-lg border border-purple-400/30 text-center shadow-xl">
+          <div className="absolute -top-6 left-1/2 -translate-x-1/2 bg-gradient-to-br from-pink-500 to-purple-600 w-12 h-12 rounded-full flex items-center justify-center shadow-lg z-10">
             <Heart className="text-white" />
           </div>
           
-          <CardContent className="pt-8 px-3">
-            <h1 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-purple-400 mt-4 mb-3">
+          <CardContent className="pt-10 px-4">
+            <h1 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-purple-400 mt-4 mb-3 animate-float">
               Olá meu amor
             </h1>
             
@@ -169,7 +169,7 @@ Com todo meu carinho e amor.`;
                         onClick={handleProposeClick}
                         className="flex-1 love-button bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 animate-pulse-scale"
                       >
-                        Clique para Prosseguir
+                        <Sparkles className="mr-2 h-4 w-4" /> Clique Aqui
                       </Button>
                     </div>
                   </div>

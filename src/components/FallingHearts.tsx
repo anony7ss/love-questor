@@ -8,6 +8,7 @@ interface Heart {
   delay: number;
   offset: number;
   rotate: number;
+  type: string;
 }
 
 const FallingHearts = ({ enabled = true }: { enabled?: boolean }) => {
@@ -17,13 +18,14 @@ const FallingHearts = ({ enabled = true }: { enabled?: boolean }) => {
     if (!enabled) return;
     
     // Generate initial hearts
-    const initialHearts = Array.from({ length: 20 }, (_, i) => ({
+    const initialHearts = Array.from({ length: 30 }, (_, i) => ({
       id: i,
-      size: Math.random() * 20 + 15, // 15-35px
+      size: Math.random() * 25 + 15, // 15-40px
       left: Math.random() * 100, // 0-100%
       delay: Math.random() * 5, // 0-5s
-      offset: Math.random() * 20 - 10, // -10 to 10
+      offset: Math.random() * 30 - 15, // -15 to 15
       rotate: Math.random() * 360, // 0-360deg
+      type: Math.random() > 0.3 ? '❤️' : '💖' // Mix of heart types
     }));
     
     setHearts(initialHearts);
@@ -31,17 +33,18 @@ const FallingHearts = ({ enabled = true }: { enabled?: boolean }) => {
     // Add new hearts periodically
     const interval = setInterval(() => {
       setHearts(prev => [
-        ...prev.slice(-40), // Keep max 40 hearts
+        ...prev.slice(-60), // Keep max 60 hearts
         {
           id: Date.now(),
-          size: Math.random() * 20 + 15,
+          size: Math.random() * 25 + 15,
           left: Math.random() * 100,
           delay: 0,
-          offset: Math.random() * 20 - 10,
+          offset: Math.random() * 30 - 15,
           rotate: Math.random() * 360,
+          type: Math.random() > 0.3 ? '❤️' : '💖'
         }
       ]);
-    }, 300);
+    }, 200); // More frequent hearts
     
     return () => clearInterval(interval);
   }, [enabled]);
@@ -62,7 +65,7 @@ const FallingHearts = ({ enabled = true }: { enabled?: boolean }) => {
             '--rotate': heart.rotate,
           } as React.CSSProperties}
         >
-          ❤️
+          {heart.type}
         </div>
       ))}
     </div>
