@@ -110,8 +110,8 @@ const DateTimeline = () => {
                   }}
                   className="p-3 pointer-events-auto bg-transparent text-white"
                   styles={{
-                    day_selected: { backgroundColor: "#8B5CF6", color: "white" },
-                    day_today: { borderColor: "#8B5CF6", color: "white" },
+                    selected: { backgroundColor: "#8B5CF6", color: "white" },
+                    today: { borderColor: "#8B5CF6", color: "white" },
                     day: { color: "white" }
                   }}
                 />
