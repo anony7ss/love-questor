@@ -2,6 +2,7 @@
 import React from 'react';
 import { Card, CardContent } from "@/components/ui/card";
 import { CalendarIcon } from "lucide-react";
+import { useIsMobile } from '@/hooks/use-mobile';
 
 interface TimelineEvent {
   date: string;
@@ -34,18 +35,21 @@ const timelineEvents: TimelineEvent[] = [
 ];
 
 const DateTimeline = () => {
+  const isMobile = useIsMobile();
+  
   return (
-    <div className="space-y-6 my-4">
+    <div className="space-y-5 my-4">
       <h3 className="text-xl font-semibold text-center text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-purple-400">
         Nossas Datas Especiais
       </h3>
       
-      <div className="space-y-4 max-h-[350px] overflow-y-auto pr-2 timeline-scroll">
+      <div className={`space-y-4 ${isMobile ? 'max-h-[280px]' : 'max-h-[350px]'} overflow-y-auto pr-2 timeline-scroll`}>
         {timelineEvents.map((event, index) => (
           <TimelineItem 
             key={index}
             event={event}
             isLast={index === timelineEvents.length - 1}
+            isMobile={isMobile}
           />
         ))}
       </div>
@@ -55,10 +59,12 @@ const DateTimeline = () => {
 
 const TimelineItem = ({ 
   event, 
-  isLast 
+  isLast,
+  isMobile 
 }: { 
   event: TimelineEvent;
   isLast: boolean;
+  isMobile: boolean;
 }) => {
   return (
     <div className="relative">
@@ -68,17 +74,17 @@ const TimelineItem = ({
       )}
       
       <Card className="relative bg-black/30 backdrop-blur-sm border border-purple-500/20 overflow-hidden">
-        <div className="absolute -left-3 top-4 w-10 h-10 rounded-full bg-gradient-to-br from-pink-500 to-purple-600 flex items-center justify-center shadow-lg z-10">
-          <CalendarIcon className="h-5 w-5 text-white" />
+        <div className="absolute -left-3 top-4 w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-gradient-to-br from-pink-500 to-purple-600 flex items-center justify-center shadow-lg z-10">
+          <CalendarIcon className="h-4 w-4 sm:h-5 sm:w-5 text-white" />
         </div>
         
-        <CardContent className="pl-10 pt-4 pb-4">
+        <CardContent className={`${isMobile ? 'pl-8 py-3' : 'pl-10 pt-4 pb-4'}`}>
           <div className="space-y-1">
-            <p className="text-sm font-medium text-purple-300">{event.date}</p>
-            <h4 className="text-base font-semibold text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-purple-300">
+            <p className="text-xs sm:text-sm font-medium text-purple-300">{event.date}</p>
+            <h4 className="text-sm sm:text-base font-semibold text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-purple-300">
               {event.title}
             </h4>
-            <p className="text-sm text-gray-300">{event.description}</p>
+            <p className="text-xs sm:text-sm text-gray-300">{event.description}</p>
           </div>
         </CardContent>
       </Card>
